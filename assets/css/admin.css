@@ -1,0 +1,53 @@
+.soc-wrap {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.soc-card {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    padding: 20px;
+}
+
+.soc-card h2 {
+    margin-top: 0;
+    font-size: 1.15rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.soc-status-ok {
+    color: #1d9d47;
+    font-weight: 600;
+}
+
+.soc-status-warning {
+    color: #ca4a1f;
+    font-weight: 600;
+}
+
+.soc-meta {
+    font-size: 13px;
+    color: #50575e;
+}
+
+.soc-metrics-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.soc-metrics-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.soc-metrics-list li:last-child {
+    border-bottom: 0;
+}
