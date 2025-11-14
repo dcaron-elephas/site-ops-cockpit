@@ -19,6 +19,11 @@ class Dashboard {
     protected static ?Dashboard $instance = null;
 
     /**
+     * Metrics handler.
+     */
+    protected Metrics $metrics;
+
+    /**
      * Get the instance.
      */
     public static function instance(): Dashboard {
@@ -33,6 +38,7 @@ class Dashboard {
      * Constructor.
      */
     protected function __construct() {
+        $this->metrics = Metrics::instance();
         add_action( 'admin_menu', [ $this, 'register_menu' ] );
     }
 
@@ -63,18 +69,18 @@ class Dashboard {
      * Render the dashboard view.
      */
     public function render_dashboard_page(): void {
-        $metrics = Metrics::instance();
-        $data    = [
-            'updates'     => $metrics->get_updates_data(),
-            'site_health' => $metrics->get_site_health_data(),
-            'environment' => $metrics->get_environment_data(),
-            'uptime'      => $metrics->get_uptime_data(),
-        ];
+        $update_stats  = $this->metrics->get_update_stats();
+        $site_info     = $this->metrics->get_site_info();
+        $env_info      = $this->metrics->get_environment_info();
+        $uptime_status = $this->metrics->get_uptime_status();
 
         $view_file = SOC_PATH . 'views/dashboard.php';
 
         if ( file_exists( $view_file ) ) {
-            /** @var array $data */
+            /** @var array $update_stats */
+            /** @var array $site_info */
+            /** @var array $env_info */
+            /** @var array $uptime_status */
             include $view_file;
         }
     }
