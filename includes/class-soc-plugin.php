@@ -71,7 +71,6 @@ class Plugin {
      */
     protected function init_hooks(): void {
         add_action( 'plugins_loaded', [ $this, 'load_plugin_components' ] );
-        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
     }
 
     /**
@@ -83,32 +82,4 @@ class Plugin {
         Settings::instance();
     }
 
-    /**
-     * Enqueue admin assets.
-     */
-    public function enqueue_assets( string $hook ): void {
-        $screens = [
-            'dashboard_page_' . self::SLUG,
-            'dashboard_page_' . self::SLUG . '-settings',
-        ];
-
-        if ( ! in_array( $hook, $screens, true ) ) {
-            return;
-        }
-
-        wp_enqueue_style(
-            'soc-admin',
-            SOC_URL . 'assets/css/admin.css',
-            [],
-            self::VERSION
-        );
-
-        wp_enqueue_script(
-            'soc-admin',
-            SOC_URL . 'assets/js/admin.js',
-            [ 'jquery' ],
-            self::VERSION,
-            true
-        );
-    }
 }
