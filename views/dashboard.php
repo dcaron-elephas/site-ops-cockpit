@@ -31,8 +31,8 @@ $other_warnings = array_filter(
     }
 );
 
-$settings    = (array) get_option( 'site_ops_cockpit_settings', [] );
-$uptime_url  = ! empty( $settings['uptime_check_url'] ) ? esc_url_raw( $settings['uptime_check_url'] ) : esc_url_raw( site_url() );
+$uptime_settings = isset( $uptime_settings ) && is_array( $uptime_settings ) ? $uptime_settings : [];
+$uptime_url      = ! empty( $uptime_settings['uptime_check_url'] ) ? $uptime_settings['uptime_check_url'] : site_url();
 $status_code = isset( $uptime_status['status_code'] ) ? $uptime_status['status_code'] : null;
 $response_ms = isset( $uptime_status['response_time_ms'] ) ? $uptime_status['response_time_ms'] : null;
 $last_check  = isset( $uptime_status['last_checked'] ) ? (int) $uptime_status['last_checked'] : 0;
@@ -141,7 +141,7 @@ $error_text  = isset( $uptime_status['error_message'] ) ? $uptime_status['error_
             <ul class="soc-metrics-list">
                 <li>
                     <span><?php esc_html_e( 'Check URL', 'site-ops-cockpit' ); ?></span>
-                    <strong><?php echo esc_html( $uptime_url ); ?></strong>
+                    <strong><a href="<?php echo esc_url( $uptime_url ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( $uptime_url ); ?></a></strong>
                 </li>
                 <li>
                     <span><?php esc_html_e( 'Status', 'site-ops-cockpit' ); ?></span>

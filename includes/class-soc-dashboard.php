@@ -24,6 +24,11 @@ class Dashboard {
     protected Metrics $metrics;
 
     /**
+     * Settings handler.
+     */
+    protected Settings $settings;
+
+    /**
      * Stored admin page hooks for asset loading.
      *
      * @var array<int, string>
@@ -45,7 +50,8 @@ class Dashboard {
      * Constructor.
      */
     protected function __construct() {
-        $this->metrics = Metrics::instance();
+        $this->metrics  = Metrics::instance();
+        $this->settings = Settings::instance();
         add_action( 'admin_menu', [ $this, 'register_menu' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
     }
@@ -106,10 +112,11 @@ class Dashboard {
      * Render the dashboard view.
      */
     public function render_dashboard_page(): void {
-        $update_stats  = $this->metrics->get_update_stats();
-        $site_info     = $this->metrics->get_site_info();
-        $env_info      = $this->metrics->get_environment_info();
-        $uptime_status = $this->metrics->get_uptime_status();
+        $update_stats    = $this->metrics->get_update_stats();
+        $site_info       = $this->metrics->get_site_info();
+        $env_info        = $this->metrics->get_environment_info();
+        $uptime_status   = $this->metrics->get_uptime_status();
+        $uptime_settings = $this->settings->get_settings();
 
         $view_file = SOC_PATH . 'views/dashboard.php';
 
@@ -118,6 +125,7 @@ class Dashboard {
             /** @var array $site_info */
             /** @var array $env_info */
             /** @var array $uptime_status */
+            /** @var array $uptime_settings */
             include $view_file;
         }
     }
@@ -126,8 +134,7 @@ class Dashboard {
      * Render the settings view.
      */
     public function render_settings_page(): void {
-        $settings = Settings::instance();
-        $option   = $settings->get_settings();
+        $option = $this->settings->get_settings();
 
         $view_file = SOC_PATH . 'views/settings.php';
 
