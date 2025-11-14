@@ -56,7 +56,9 @@ class Settings {
         register_setting(
             'site-ops-cockpit',
             self::OPTION_NAME,
-            [ $this, 'sanitize_settings' ]
+            [
+                'sanitize_callback' => [ $this, 'sanitize_settings' ],
+            ]
         );
 
         add_settings_section(
